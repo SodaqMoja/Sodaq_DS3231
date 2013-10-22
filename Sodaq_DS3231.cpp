@@ -177,6 +177,19 @@ void Sodaq_DS3231::adjust(const DateTime& dt) {
 
 }
 
+DateTime convertToDateTime(unsigned long t)
+{
+  if (t < EPOCH_TIME_OFF)
+    return DateTime(0);
+  return DateTime(t - EPOCH_TIME_OFF);
+}
+
+// Set the RTC using timestamp (seconds since epoch)
+void Sodaq_DS3231::setEpoch(uint32_t ts)
+{
+  adjust(convertToDateTime(ts));
+}
+
 //Read the current time-date and return it in DateTime format
 DateTime Sodaq_DS3231::now() {
   Wire.beginTransmission(DS3231_ADDRESS);

@@ -81,6 +81,7 @@ public:
     void writeRegister(uint8_t regaddress, uint8_t value);
 
     void adjust(const DateTime& dt);  //Changes the date-time
+    void setEpoch(uint32_t ts); // Set the RTC using timestamp (seconds since epoch)
     DateTime now();            //Gets the current date-time
 
     //Decides the /INT pin's output setting
