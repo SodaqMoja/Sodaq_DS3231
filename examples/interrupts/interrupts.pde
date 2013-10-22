@@ -4,7 +4,6 @@
 #include <Wire.h>
 #include "Sodaq_DS3231.h"
 
-Sodaq_DS3231 RTC; //Create the Sodaq_DS3231 object
 static uint8_t prevSecond=0; 
 
 void setup () 
@@ -16,20 +15,20 @@ void setup ()
      Serial.begin(57600);
      Wire.begin();
     
-     RTC.begin();
+     rtc.begin();
      attachInterrupt(0, INT0_ISR, FALLING); 
      
      //Enable Interrupt 
-     RTC.enableInterrupts(EveryMinute); //interrupt at  EverySecond, EveryMinute, EveryHour
+     rtc.enableInterrupts(EveryMinute); //interrupt at  EverySecond, EveryMinute, EveryHour
      // or this
-     //RTC.enableInterrupts(18,4,0);    // interrupt at (h,m,s)
+     //rtc.enableInterrupts(18,4,0);    // interrupt at (h,m,s)
 }
 
 
 void loop () 
 {
 
-    DateTime now = RTC.now(); //get the current date-time    
+    DateTime now = rtc.now(); //get the current date-time    
     if((now.second()) !=  prevSecond )
     {
     //print only when there is a change in seconds
@@ -47,7 +46,7 @@ void loop ()
     Serial.println(' ');
     }
     prevSecond = now.second();
-    RTC.clearINTStatus();
+    rtc.clearINTStatus();
  
 } 
 

@@ -3,8 +3,6 @@
 #include <Wire.h>
 #include "Sodaq_DS3231.h"
 
-Sodaq_DS3231 RTC; //Create the Sodaq_DS3231 object
-
 char weekDay[][4] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 //year, month, date, hour, min, sec and week-day(starts from 0 and goes to 6)
@@ -17,13 +15,13 @@ void setup ()
 {
     Serial.begin(57600);
     Wire.begin();
-    RTC.begin();
-    RTC.adjust(dt); //Adjust date-time as defined 'dt' above 
+    rtc.begin();
+    rtc.adjust(dt); //Adjust date-time as defined 'dt' above 
 }
 
 void loop () 
 {
-    DateTime now = RTC.now(); //get the current date-time
+    DateTime now = rtc.now(); //get the current date-time
     Serial.print(now.year(), DEC);
     Serial.print('/');
     Serial.print(now.month(), DEC);

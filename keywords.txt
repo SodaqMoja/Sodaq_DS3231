@@ -33,6 +33,12 @@ getTemperature	KEYWORD2
 now	KEYWORD2
 
 #######################################
+# Instances (KEYWORD3)
+#######################################
+
+rtc	KEYWORD3
+
+#######################################
 # Constants (LITERAL1)
 #######################################
 
@@ -40,4 +46,3 @@ EverySecond	LITERAL1
 EveryMinute	LITERAL1
 EveryHour	LITERAL1
 EveryMonth	LITERAL1
-

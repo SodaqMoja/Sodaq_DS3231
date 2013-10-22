@@ -94,6 +94,6 @@ protected:
     uint8_t intType, intPeriodicity, intHH24, intMM;
 };
 
+extern Sodaq_DS3231 rtc;
+
 #endif
-
-

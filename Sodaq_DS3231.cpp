@@ -301,4 +301,4 @@ float Sodaq_DS3231::getTemperature()
       
 }
 
-
+Sodaq_DS3231 rtc;

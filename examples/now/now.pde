@@ -5,18 +5,16 @@
 
 char weekDay[][4] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
-Sodaq_DS3231 RTC; //Create the R8025 object
-
 void setup () 
 {
     Serial.begin(57600);
     Wire.begin();
-    RTC.begin();
+    rtc.begin();
 }
 
 void loop () 
 {
-    DateTime now = RTC.now(); //get the current date-time
+    DateTime now = rtc.now(); //get the current date-time
     
     Serial.print(now.year(), DEC);
     Serial.print('/');

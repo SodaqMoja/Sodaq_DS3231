@@ -3,19 +3,17 @@
 #include <Wire.h>
 #include "Sodaq_DS3231.h"
 
-Sodaq_DS3231 RTC; //Create the Sodaq_DS3231 object
-
 void setup () 
 {
     Serial.begin(57600);
     Wire.begin();
-    RTC.begin();
+    rtc.begin();
 }
 
 void loop () 
 {
-    RTC.convertTemperature();             //convert current temperature into registers
-    Serial.print(RTC.getTemperature()); //read registers and display the temperature
+    rtc.convertTemperature();             //convert current temperature into registers
+    Serial.print(rtc.getTemperature()); //read registers and display the temperature
     Serial.println("deg C");
     delay(1000);
 }
