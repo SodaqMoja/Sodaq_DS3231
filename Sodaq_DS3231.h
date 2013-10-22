@@ -81,7 +81,7 @@ public:
     void writeRegister(uint8_t regaddress, uint8_t value);
 
     void adjust(const DateTime& dt);  //Changes the date-time
-    static DateTime now();            //Gets the current date-time
+    DateTime now();            //Gets the current date-time
 
     //Decides the /INT pin's output setting
     //periodicity can be any of following defines: EverySecond, EveryMinute, EveryHour 
@@ -92,8 +92,6 @@ public:
 
     void convertTemperature();
     float getTemperature();
-protected:
-    uint8_t intType, intPeriodicity, intHH24, intMM;
 };
 
 extern Sodaq_DS3231 rtc;
