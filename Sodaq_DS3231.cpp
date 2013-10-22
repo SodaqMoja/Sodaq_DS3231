@@ -1,3 +1,4 @@
+// Sodaq_DS3231 Class is a modified version of DS3231.
 // DS3231 Class is by Seeed Technology Inc(http://www.seeedstudio.com) and used
 // in Seeeduino Stalker v2.1 for battery management(MCU power saving mode)
 // & to generate timestamp for data logging. DateTime Class is a modified
@@ -9,7 +10,7 @@
 
 #include <Wire.h>
 #include <avr/pgmspace.h>
-#include "DS3231.h"
+#include "Sodaq_DS3231.h"
 #include "Arduino.h"
 
 #define SECONDS_PER_DAY 86400L
@@ -117,7 +118,7 @@ static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
 ////////////////////////////////////////////////////////////////////////////////
 // RTC DS3231 implementation
 
-uint8_t DS3231::readRegister(uint8_t regaddress)
+uint8_t Sodaq_DS3231::readRegister(uint8_t regaddress)
 {
     Wire.beginTransmission(DS3231_ADDRESS);
     Wire.write((byte)regaddress);
@@ -127,7 +128,7 @@ uint8_t DS3231::readRegister(uint8_t regaddress)
     return Wire.read();
 }
 
-void DS3231::writeRegister(uint8_t regaddress,uint8_t value)
+void Sodaq_DS3231::writeRegister(uint8_t regaddress,uint8_t value)
 {
     Wire.beginTransmission(DS3231_ADDRESS);
     Wire.write((byte)regaddress);
@@ -135,7 +136,7 @@ void DS3231::writeRegister(uint8_t regaddress,uint8_t value)
     Wire.endTransmission();
 }
 
-uint8_t DS3231::begin(void) {
+uint8_t Sodaq_DS3231::begin(void) {
 
   unsigned char ctReg=0;
   ctReg |= 0b00011100; 
@@ -154,7 +155,7 @@ uint8_t DS3231::begin(void) {
 
 //Adjust the time-date specified in DateTime format
 //writing any non-existent time-data may interfere with normal operation of the RTC
-void DS3231::adjust(const DateTime& dt) {
+void Sodaq_DS3231::adjust(const DateTime& dt) {
 
   Wire.beginTransmission(DS3231_ADDRESS);
   Wire.write((byte)DS3231_SEC_REG);  //beginning from SEC Register address
@@ -171,7 +172,7 @@ void DS3231::adjust(const DateTime& dt) {
 }
 
 //Read the current time-date and return it in DateTime format
-DateTime DS3231::now() {
+DateTime Sodaq_DS3231::now() {
   Wire.beginTransmission(DS3231_ADDRESS);
   Wire.write((byte)0x00);	
   Wire.endTransmission();
@@ -194,7 +195,7 @@ DateTime DS3231::now() {
 //Enable periodic interrupt at /INT pin. Supports only the level interrupt
 //for consistency with other /INT interrupts. All interrupts works like single-shot counter
 //Use refreshINTA() to re-enable interrupt.
-void DS3231::enableInterrupts(uint8_t periodicity)
+void Sodaq_DS3231::enableInterrupts(uint8_t periodicity)
 {
 
     unsigned char ctReg=0;
@@ -230,7 +231,7 @@ void DS3231::enableInterrupts(uint8_t periodicity)
 }
 
 //Enable HH/MM/SS interrupt on /INTA pin. All interrupts works like single-shot counter
-void DS3231::enableInterrupts(uint8_t hh24, uint8_t mm, uint8_t ss)
+void Sodaq_DS3231::enableInterrupts(uint8_t hh24, uint8_t mm, uint8_t ss)
 {
     unsigned char ctReg=0;
     ctReg |= 0b00011101; 
@@ -243,14 +244,14 @@ void DS3231::enableInterrupts(uint8_t hh24, uint8_t mm, uint8_t ss)
 }
 
 //Disable Interrupts. This is equivalent to begin() method.
-void DS3231::disableInterrupts()
+void Sodaq_DS3231::disableInterrupts()
 {
     begin(); //Restore to initial value.
 }
 
 //Clears the interrrupt flag in status register. 
 //This is equivalent to preparing the DS3231 /INT pin to high for MCU to get ready for recognizing the next INT0 interrupt
-void DS3231::clearINTStatus()
+void Sodaq_DS3231::clearINTStatus()
 {
     // Clear interrupt flag 
     uint8_t statusReg = readRegister(DS3231_STATUS_REG);
@@ -260,7 +261,7 @@ void DS3231::clearINTStatus()
 }
 
 //force temperature sampling and converting to registers. If this function is not used the temperature is sampled once 64 Sec.
-void DS3231::convertTemperature()
+void Sodaq_DS3231::convertTemperature()
 {
     // Set CONV 
     uint8_t ctReg = readRegister(DS3231_CONTROL_REG);
@@ -277,7 +278,7 @@ void DS3231::convertTemperature()
 }
 
 //Read the temperature value from the register and convert it into float (deg C)
-float DS3231::getTemperature()
+float Sodaq_DS3231::getTemperature()
 {
     int   temperatureCelsius;
     float fTemperatureCelsius;

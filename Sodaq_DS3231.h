@@ -1,3 +1,4 @@
+// Sodaq_DS3231 Class is a modified version of DS3231.
 // DS3231 Class is by Seeed Technology Inc(http://www.seeedstudio.com) and used
 // in Seeeduino Stalker v2.1 for battery management(MCU power saving mode)
 // & to generate timestamp for data logging. DateTime Class is a modified
@@ -7,8 +8,8 @@
 // http://jeelabs.net/projects/cafe/wiki/RTClib 
 // Released under MIT License http://opensource.org/licenses/mit-license.php
 
-#ifndef DS3231_H
-#define DS3231_H
+#ifndef SODAQ_DS3231_H
+#define SODAQ_DS3231_H
 
 
 #define DS3231_ADDRESS	      0x68 //I2C Slave address
@@ -71,7 +72,7 @@ protected:
 
 // RTC DS3231 chip connected via I2C and uses the Wire library.
 // Only 24 Hour time format is supported in this implementation
-class DS3231 {
+class Sodaq_DS3231 {
 public:
     uint8_t begin(void);
     uint8_t readRegister(uint8_t regaddress);

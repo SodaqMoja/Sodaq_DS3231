@@ -1,11 +1,11 @@
 // Date and time functions using RX8025 RTC connected via I2C and Wire lib
 
 #include <Wire.h>
-#include "DS3231.h"
+#include "Sodaq_DS3231.h"
 
 char weekDay[][4] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
-DS3231 RTC; //Create the R8025 object
+Sodaq_DS3231 RTC; //Create the R8025 object
 
 void setup () 
 {

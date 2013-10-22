@@ -2,9 +2,9 @@
 
 #include <avr/sleep.h>
 #include <Wire.h>
-#include "DS3231.h"
+#include "Sodaq_DS3231.h"
 
-DS3231 RTC; //Create the DS3231 object
+Sodaq_DS3231 RTC; //Create the Sodaq_DS3231 object
 static uint8_t prevSecond=0; 
 
 void setup () 
