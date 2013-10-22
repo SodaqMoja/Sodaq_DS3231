@@ -59,12 +59,14 @@ public:
  
     uint8_t date() const        { return d; }
     uint8_t month() const       { return m; }
-    uint16_t year() const       { return 2000 + yOff; }
+    uint16_t year() const       { return 2000 + yOff; }		// Notice the 2000 !
 
     uint8_t dayOfWeek() const   { return wday;}  /*Su=0 Mo=1 Tu=3 We=4 Th=5 Fr=6 Sa=7 */
 
     // 32-bit time as seconds since 1/1/2000
-    long get() const;   
+    uint32_t get() const;
+    // 32-bit number of seconds since Unix epoch (1970-01-01)
+    uint32_t getEpoch() const;
 
 protected:
     uint8_t yOff, m, d, hh, mm, ss, wday;

@@ -13,12 +13,13 @@
 #include "Sodaq_DS3231.h"
 #include "Arduino.h"
 
+#define EPOCH_TIME_OFF 946684800  // This is 2000-jan-01 00:00:00 in epoch time
 #define SECONDS_PER_DAY 86400L
 
 ////////////////////////////////////////////////////////////////////////////////
 // utility code, some of this could be exposed in the DateTime API if needed
 
-static uint8_t daysInMonth [] PROGMEM = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+static const uint8_t daysInMonth [] PROGMEM = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 
 // number of days since 2000/01/01, valid for 2001..2099
 static uint16_t date2days(uint16_t y, uint8_t m, uint8_t d) {
@@ -32,7 +33,7 @@ static uint16_t date2days(uint16_t y, uint8_t m, uint8_t d) {
     return days + 365 * y + (y + 3) / 4 - 1;
 }
 
-static long time2long(uint16_t days, uint8_t h, uint8_t m, uint8_t s) {
+static uint32_t time2long(uint16_t days, uint8_t h, uint8_t m, uint8_t s) {
     return ((days * 24L + h) * 60 + m) * 60 + s;
 }
 
@@ -107,9 +108,14 @@ DateTime::DateTime (const char* date, const char* time) {
     ss = conv2d(time + 6);
 }
 
-long DateTime::get() const {
+uint32_t DateTime::get() const {
     uint16_t days = date2days(yOff, m, d);
     return time2long(days, hh, mm, ss);
+}
+
+uint32_t DateTime::getEpoch() const
+{
+    return get() + EPOCH_TIME_OFF;
 }
 
 static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4); }
