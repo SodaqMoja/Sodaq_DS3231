@@ -11,6 +11,7 @@
 #ifndef SODAQ_DS3231_H
 #define SODAQ_DS3231_H
 
+#include <stdint.h>
 
 #define DS3231_ADDRESS	      0x68 //I2C Slave address
 
