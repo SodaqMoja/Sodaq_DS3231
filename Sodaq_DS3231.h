@@ -62,7 +62,7 @@ public:
     uint8_t month() const       { return m; }
     uint16_t year() const       { return 2000 + yOff; }		// Notice the 2000 !
 
-    uint8_t dayOfWeek() const   { return wday;}  /*Su=0 Mo=1 Tu=3 We=4 Th=5 Fr=6 Sa=7 */
+    uint8_t dayOfWeek() const   { return wday;}  /*Su=1 Mo=2 Tu=3 We=4 Th=5 Fr=6 Sa=7 */
 
     // 32-bit time as seconds since 1/1/2000
     uint32_t get() const;
@@ -81,7 +81,7 @@ public:
     uint8_t readRegister(uint8_t regaddress);
     void writeRegister(uint8_t regaddress, uint8_t value);
 
-    void adjust(const DateTime& dt);  //Changes the date-time
+    void setDateTime(const DateTime& dt);  //Changes the date-time
     void setEpoch(uint32_t ts); // Set the RTC using timestamp (seconds since epoch)
     DateTime now();            //Gets the current date-time
 

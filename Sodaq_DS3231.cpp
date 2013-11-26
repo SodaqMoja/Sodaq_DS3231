@@ -147,7 +147,6 @@ uint8_t Sodaq_DS3231::begin(void) {
   unsigned char ctReg=0;
   
   Wire.begin();
-	
   ctReg |= 0b00011100; 
   writeRegister(DS3231_CONTROL_REG, ctReg);     //CONTROL Register Address
   delay(10);
@@ -162,9 +161,9 @@ uint8_t Sodaq_DS3231::begin(void) {
   return 1; 
 }
 
-//Adjust the time-date specified in DateTime format
+//set the time-date specified in DateTime format
 //writing any non-existent time-data may interfere with normal operation of the RTC
-void Sodaq_DS3231::adjust(const DateTime& dt) {
+void Sodaq_DS3231::setDateTime(const DateTime& dt) {
 
   Wire.beginTransmission(DS3231_ADDRESS);
   Wire.write((byte)DS3231_SEC_REG);  //beginning from SEC Register address
@@ -190,7 +189,7 @@ DateTime convertToDateTime(unsigned long t)
 // Set the RTC using timestamp (seconds since epoch)
 void Sodaq_DS3231::setEpoch(uint32_t ts)
 {
-  adjust(convertToDateTime(ts));
+  setDateTime(convertToDateTime(ts));
 }
 
 //Read the current time-date and return it in DateTime format
