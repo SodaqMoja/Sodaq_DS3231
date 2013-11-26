@@ -145,6 +145,9 @@ void Sodaq_DS3231::writeRegister(uint8_t regaddress,uint8_t value)
 uint8_t Sodaq_DS3231::begin(void) {
 
   unsigned char ctReg=0;
+  
+  Wire.begin();
+	
   ctReg |= 0b00011100; 
   writeRegister(DS3231_CONTROL_REG, ctReg);     //CONTROL Register Address
   delay(10);
