@@ -179,7 +179,7 @@ void Sodaq_DS3231::setDateTime(const DateTime& dt) {
 
 }
 
-DateTime convertToDateTime(unsigned long t)
+DateTime Sodaq_DS3231::makeDateTime(unsigned long t)
 {
   if (t < EPOCH_TIME_OFF)
     return DateTime(0);
@@ -189,7 +189,7 @@ DateTime convertToDateTime(unsigned long t)
 // Set the RTC using timestamp (seconds since epoch)
 void Sodaq_DS3231::setEpoch(uint32_t ts)
 {
-  setDateTime(convertToDateTime(ts));
+  setDateTime(makeDateTime(ts));
 }
 
 //Read the current time-date and return it in DateTime format

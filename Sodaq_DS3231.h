@@ -85,6 +85,8 @@ public:
     void setEpoch(uint32_t ts); // Set the RTC using timestamp (seconds since epoch)
     DateTime now();            //Gets the current date-time
 
+    DateTime makeDateTime(unsigned long t);
+
     //Decides the /INT pin's output setting
     //periodicity can be any of following defines: EverySecond, EveryMinute, EveryHour 
     void enableInterrupts(uint8_t periodicity);
