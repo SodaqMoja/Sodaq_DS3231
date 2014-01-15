@@ -71,6 +71,7 @@ DateTime::DateTime (long t) {
         days -= daysPerMonth;
     }
     d = days + 1;
+    wday = 0;         // FIXME This is not properly initialized
 }
 
 DateTime::DateTime (uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t min, uint8_t sec, uint8_t wd) {
@@ -106,6 +107,7 @@ DateTime::DateTime (const char* date, const char* time) {
     hh = conv2d(time);
     mm = conv2d(time + 3);
     ss = conv2d(time + 6);
+    wday = 0;         // FIXME This is not properly initialized
 }
 
 uint32_t DateTime::get() const {
@@ -301,7 +303,6 @@ void Sodaq_DS3231::convertTemperature()
 //Read the temperature value from the register and convert it into float (deg C)
 float Sodaq_DS3231::getTemperature()
 {
-    int   temperatureCelsius;
     float fTemperatureCelsius;
     uint8_t tUBYTE  = readRegister(DS3231_TMP_UP_REG);  //Two's complement form
     uint8_t tLRBYTE = readRegister(DS3231_TMP_LOW_REG); //Fractional part
