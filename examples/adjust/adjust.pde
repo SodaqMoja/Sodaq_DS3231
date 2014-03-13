@@ -16,7 +16,7 @@ void setup ()
     Serial.begin(57600);
     Wire.begin();
     rtc.begin();
-    rtc.adjust(dt); //Adjust date-time as defined 'dt' above 
+    rtc.setDateTime(dt); //Adjust date-time as defined 'dt' above 
 }
 
 void loop () 
