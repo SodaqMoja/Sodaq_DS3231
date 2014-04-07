@@ -39,6 +39,8 @@ public:
     // 32-bit number of seconds since Unix epoch (1970-01-01)
     uint32_t getEpoch() const;
 
+    void addToString(String & str) const;
+
 protected:
     uint8_t yOff, m, d, hh, mm, ss, wday;
 };
