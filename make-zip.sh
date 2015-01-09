@@ -21,4 +21,5 @@ grep -v .gitignore |
 cpio -pmud ${TDIR}/
 (cd /tmp && zip -r $ZIPNAME.zip $DIRNAME)
 mv /tmp/$ZIPNAME.zip .
+ln -sf -T $ZIPNAME.zip ${DIRNAME}.zip
 rm -fr ${TDIR}
