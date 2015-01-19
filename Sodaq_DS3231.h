@@ -45,6 +45,11 @@ protected:
     uint8_t yOff, m, d, hh, mm, ss, wday;
 };
 
+// These are the constants for periodicity of enableInterrupts() below.
+#define EverySecond     0x01
+#define EveryMinute     0x02
+#define EveryHour       0x03
+
 // RTC DS3231 chip connected via I2C and uses the Wire library.
 // Only 24 Hour time format is supported in this implementation
 class Sodaq_DS3231 {

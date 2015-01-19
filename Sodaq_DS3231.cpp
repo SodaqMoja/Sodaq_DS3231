@@ -42,10 +42,6 @@
 #define DS3231_TMP_UP_REG           0x11
 #define DS3231_TMP_LOW_REG          0x12
 
-#define EverySecond     0x01
-#define EveryMinute     0x02
-#define EveryHour       0x03
-
 ////////////////////////////////////////////////////////////////////////////////
 // utility code, some of this could be exposed in the DateTime API if needed
 
