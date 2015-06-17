@@ -1,3 +1,9 @@
+# Sodaq_DS3231
+
+This is an Arduino library for the DS3231 RTC (Real Time Clock).
+
+# Old README
+
 RDS3231 Class is by Seeed Technology Inc(http://www.seeedstudio.com) and used
 in Seeeduino Stalker v2.1 for battery management(MCU power saving mode)
 & to generate timestamp for data logging. DateTime Class is a modified
