@@ -19,13 +19,13 @@ void loop ()
   static uint16_t lastMillis = 0;
   uint16_t currentMillis = millis() / 1000;
 
-  if (currentMillis - lastMillis >= 5)
+  if (currentMillis - lastMillis >= 1)
   {
     lastMillis = currentMillis;
     DateTime now = rtc.now(); //get the current date-time
   
   	Serial.printf("%02d-%02d-%02d ", now.year(), now.month(), now.date());
-    Serial.printf("%02d:%02d:%02d", now.hour(), now.minute(), now.second());
+    Serial.printf("%02d:%02d:%02d ", now.hour(), now.minute(), now.second());
   	Serial.println(weekDay[now.dayOfWeek()]);
   	Serial.print("Seconds since Unix Epoch: "); 
   	Serial.print(now.getEpoch(), DEC);
