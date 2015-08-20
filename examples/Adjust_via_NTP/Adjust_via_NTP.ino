@@ -27,7 +27,7 @@ const char* ntpServerName = "0.de.pool.ntp.org";
 /**
  * @brief Timezone
  * 
- * For ZEST use 2.0
+ * For CEST use 2.0
  */
 const double timezone = 2.0;
 
