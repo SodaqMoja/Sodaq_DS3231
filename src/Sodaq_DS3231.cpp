@@ -9,7 +9,7 @@
 // Released under MIT License http://opensource.org/licenses/mit-license.php
 
 #include <Wire.h>
-#include <avr/pgmspace.h>
+//#include <avr/pgmspace.h>
 #include "Sodaq_DS3231.h"
 #include "Arduino.h"
 

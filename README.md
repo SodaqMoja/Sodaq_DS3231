@@ -2,6 +2,18 @@
 
 This is an Arduino library for the DS3231 RTC (Real Time Clock).
 
+# Changelog
+## Version 1.2.1
+- Add Support for ESP8266
+
+# Authors
+## Since Version 1.2.1
+- Pascal Gollor (http://www.pgollor.de/cms/)
+
+## Till Verison 1.2.0
+- SodaqMoja (https://github.com/SodaqMoja/Sodaq_DS3231)
+- Seeed Technology Inc(http://www.seeedstudio.com)
+
 # Old README
 
 RDS3231 Class is by Seeed Technology Inc(http://www.seeedstudio.com) and used
