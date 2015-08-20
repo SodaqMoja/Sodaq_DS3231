@@ -14,6 +14,7 @@ Table of Contents
       * [Since Version 1.2.1](#since-version-121)
       * [Till Verison 1.2.0](#till-verison-120)
   * [Information](#information)
+    * [Usage](#usage)
     * [Connection](#connection)
     * [NTP Specification](#ntp-specification)
       * [NTPv4 Basic Header](#ntpv4-basic-header)
@@ -40,6 +41,9 @@ Released under MIT License http://opensource.org/licenses/mit-license.php
 For more information see [old readme](OLD_README.md)
 
 # Information
+## Usage
+Transmit `update` as ASCII String with `CR` and `LF` and the end over the serial to update the DS3231.
+
 ## Connection
 DS3231 Schield | ESP8266
 ---------------|--------
