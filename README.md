@@ -18,6 +18,24 @@ This is an Arduino library for the DS3231 RTC (Real Time Clock).
 
 For more information see [old readme](OLD_README.md)
 
+Table of Contents
+=================
+
+  * [Sodaq_DS3231](#sodaq_ds3231)
+    * [Changelog](#changelog)
+      * [Version 1.2.1](#version-121)
+    * [Authors](#authors)
+      * [Since Version 1.2.1](#since-version-121)
+      * [Till Verison 1.2.0](#till-verison-120)
+  * [License](#license)
+  * [Information](#information)
+    * [Connection](#connection)
+    * [NTP Specification](#ntp-specification)
+      * [NTPv4 Basic Header](#ntpv4-basic-header)
+        * [Transmit Timestamp](#transmit-timestamp)
+      * [NTP Timestamp format](#ntp-timestamp-format)
+  * [Table of Contents](#table-of-contents)
+
 # License
 Released under MIT License http://opensource.org/licenses/mit-license.php
 
@@ -58,3 +76,4 @@ Bytes | Description
 ------|------------
 0 - 3 | Seconds scince 1900
 4 - 7 | Fraction of Second
+
