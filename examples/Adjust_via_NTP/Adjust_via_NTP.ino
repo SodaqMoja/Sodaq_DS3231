@@ -115,7 +115,7 @@ void sendNTPpacket(IPAddress *address)
  * 
  * Bytes: Description
  * -----:-------------------
- * 0 - 3: Seconds since 1990
+ * 0 - 3: Seconds since 1900
  * 4 - 7: Fraction of Second
  * </pre>
  * 
