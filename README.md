@@ -2,6 +2,16 @@
 
 This is an Arduino library for the DS3231 RTC (Real Time Clock).
 
+## Connection
+DS3231 | ESP8266
+-------|--------
+Vcc    | Vcc
+GND    | GND
+SDA    | D4
+SCL    | D5
+
+[ESP8266 GPIO](https://github.com/esp8266/Arduino/blob/esp8266/hardware/esp8266com/esp8266/doc/reference.md#digital-io)
+
 ## Changelog
 ### Version 1.2.1
 - Change library to use with ESP8266
