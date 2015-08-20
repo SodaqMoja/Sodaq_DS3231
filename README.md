@@ -16,7 +16,7 @@ This is an Arduino library for the DS3231 RTC (Real Time Clock).
 - Seeed Technology Inc(http://www.seeedstudio.com)
 - Original DateTime Class and its utility code is by Jean-Claude Wippler at JeeLabs (http://jeelabs.net/projects/cafe/wiki/RTClib)
 
-For more information see [OLD_README.md]
+For more information see [old readme](OLD_README.md)
 
 
 # License
