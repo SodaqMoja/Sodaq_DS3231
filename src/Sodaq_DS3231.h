@@ -11,6 +11,7 @@
 #ifndef SODAQ_DS3231_H
 #define SODAQ_DS3231_H
 
+#include <Arduino.h>
 #include <stdint.h>
 
 
