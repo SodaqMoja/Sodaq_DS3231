@@ -9,9 +9,9 @@ cache:
         - "~/.platformio"
 #
 env:
-    - PLATFORMIO_CI_SRC=examples/adjust/adjust.ino
-    - PLATFORMIO_CI_SRC=examples/interrupts/interrupts.ino
     - PLATFORMIO_CI_SRC=examples/now/now.ino
+    - PLATFORMIO_CI_SRC=examples/temperature/temperature.ino
+    - PLATFORMIO_CI_SRC=examples/adjust/adjust.ino
     - PLATFORMIO_CI_SRC=examples/PCsync/PCsync.ino
 #
 install:

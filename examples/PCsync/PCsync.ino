@@ -8,7 +8,7 @@
  * sync_clock_PC.py python script which will automatically synchronize the RTC to UTC based
  * on the computer's clock or NTP (if internet connection is available).
  *
- * This script is meant to be use on a naked EnviroDIY Mayfly board with no connection other than
+ * This script is meant to be used on a naked EnviroDIY Mayfly board with no connection other than
  * directly to the computer via microUSB.  If a GPRSbee or other internet/radio access shields are
  * attached to they Mayfly, it is more efficient to utilize the internet directly to synchronize the
  * RTC chip rather than using this script.  An example of that type of script is available on Sodaq's
@@ -96,7 +96,7 @@ void setup()
   //Start Serial for serial monitor
   Serial.begin(57600);
   while (!Serial) ; // wait until Arduino Serial Monitor opens
-  Serial.println("Running sketch: sync_clock_PC.ino");
+  Serial.println("Running sketch: PCsync.ino");
 }
 
 // This makes the date look all pretty
