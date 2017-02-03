@@ -1,19 +1,19 @@
 /* ***********************************************************************************************
- * 
+ *
  * Sara Damiano - January 12, 2017
- * 
+ *
  * This script is intended to synchronize the RTC clock chip of an EnviroDIY Mayfly.
- * After uploading this script to your Mayfly, the time can be set by either manually sending 
+ * After uploading this script to your Mayfly, the time can be set by either manually sending
  * a "T" followed by a unix time stamp to the Mayfly (ie, T1451606400) or by running the
  * sync_clock_PC.py python script which will automatically synchronize the RTC to UTC based
  * on the computer's clock or NTP (if internet connection is available).
- * 
+ *
  * This script is meant to be use on a naked EnviroDIY Mayfly board with no connection other than
- * directly to the computer via microUSB.  If a GPRSbee or other internet/radio access shields are 
+ * directly to the computer via microUSB.  If a GPRSbee or other internet/radio access shields are
  * attached to they Mayfly, it is more efficient to utilize the internet directly to synchronize the
  * RTC chip rather than using this script.  An example of that type of script is available on Sodaq's
  * website.
- * 
+ *
  * This script requires the wire library generally built into the Arduino IDE and the Sodaq DS3231
  * library, linked below.
  *
@@ -99,11 +99,41 @@ void setup()
   Serial.println("Running sketch: sync_clock_PC.ino");
 }
 
+// This makes the date look all pretty
+char weekDay[][10] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
+                     "Friday", "Saturday" };
+char charMonth[][10] = {"January", "February", "March", "April", "May", "June",
+                       "July", "August", "September", "October", "November",
+                       "December" };
+String add02d(uint16_t val)
+{
+  if (val < 10)
+    {return "0" + String(val);}
+  else
+    {return String(val);}
+}
+
 
 void loop()
 {
   //Print out current date/time
-  Serial.println("Current RTC Date/Time: " + String(rtc.now().dayOfWeek()) + String(getDateTime()) + " (" + String(rtc.now().getEpoch()) + ")");
+  DateTime now = rtc.now(); //get the current date-time
+  uint32_t ts = now.getEpoch();
+  Serial.print("Current RTC Date/Time: ");
+  Serial.print(weekDay[now.dayOfWeek()-1]);
+  Serial.print(", ");
+  Serial.print(charMonth[now.month()-1]);
+	Serial.print(' ');
+	Serial.print(now.date());
+	Serial.print(', ');
+	Serial.print(now.year());
+	Serial.print(' ');
+	Serial.print(now.hour());
+	Serial.print(':');
+	Serial.print(add02d(now.minute()));
+	Serial.print(':');
+	Serial.print(add02d(now.second()));
+	Serial.println(" (" + String(ts) + ")");
 
   if (Serial.available())
   {
@@ -118,4 +148,3 @@ void loop()
 
   delay(1000);
 }
-

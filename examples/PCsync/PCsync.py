@@ -49,7 +49,7 @@ def get_pc_time(notifications=False):
     try:
         c = ntplib.NTPClient()
         response = c.request('us.pool.ntp.org', version=3)
-        utc_unix_time = response.tx_time
+        utc_unix_time = response.orig_time
         if notifications:
             print "Using time from Network Time Protocol server us.pool.ntp.org"
     except:
@@ -71,10 +71,15 @@ def get_pc_time(notifications=False):
 
 def parse_device_set_response():
     # Parses the device's response to the time-setting commands
-    device.readline()  # This line should be another rep of the device datetime
-    device.readline()  # This line should be "Recieved:###"
-    diffts_abs = int(device.readline().split()[4])
+    first_resp = device.readline()  # This line should be another rep of the device datetime
+    print first_resp
+    sec_resp = device.readline()  # This line should be "Recieved:###"
+    # print sec_resp
+    third_resp = device.readline()  # This line should be "Updating RTC ..."
+    # print third_resp
+    diffts_abs = int(third_resp.split()[4])
     setline = device.readline()
+    # print setline
     oldts = int(setline.split()[7])
     newts = int(setline.split()[4])
     return oldts, newts, diffts_abs
@@ -112,6 +117,8 @@ except:
 print "Waiting for device to initialize"
 time.sleep(2)
 timeout_time = time.time() + 10
+print
+print device.readline()
 print device.readline()
 
 # Check that getting expected responses from the device
@@ -125,9 +132,12 @@ except:
 
 # Send the time to the device
 print "First attempt to set the clock"
+run_time_check = datetime.datetime.now();
 device.write("T" + str(get_pc_time(notifications=True)))
 mf_resp1 = parse_device_set_response()
 print "Clock set to %s" % mf_resp1[1]
+set_time_check = (datetime.datetime.now() - run_time_check).total_seconds();
+print "Setting the clock took %s seconds" % set_time_check
 
 # Send the time to the device again to double-check the offsets
 print "Checking the device response offset"
@@ -140,9 +150,15 @@ if mf_resp2[2] > 1:
     print "Device takes %s seconds to respond to the PC time set command" % mf_resp2[2]
     print "Re-adjusting the device clock"
     device.readline()
-    device.write("T" + str(get_pc_time() + mf_resp2[2]))
+    device.write("T" + str(get_pc_time() + set_time_check + mf_resp2[2]))
+else:
+    print "Device responded in less than 1 second"
+    print "Re-adjusting the device clock"
+    device.readline()
+    device.write("T" + str(get_pc_time() + set_time_check))
 
 print "Device RTC is now within 1 second of computer or NTP clock"
+print "It is not possible to adjust the DS3231 to millisecond precision."
 print device.readline()
 
 device.close()
