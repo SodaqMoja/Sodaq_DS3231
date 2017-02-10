@@ -100,9 +100,9 @@ void setup()
 }
 
 // This makes the date look all pretty
-char weekDay[][10] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
+String weekDay[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
                      "Friday", "Saturday" };
-char charMonth[][10] = {"January", "February", "March", "April", "May", "June",
+String charMonth[] = {"January", "February", "March", "April", "May", "June",
                        "July", "August", "September", "October", "November",
                        "December" };
 String add02d(uint16_t val)
