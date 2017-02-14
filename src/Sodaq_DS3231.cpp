@@ -90,7 +90,7 @@ DateTime::DateTime (long t) {
     mm = t % 60;
     t /= 60;  // now t is hours
     hh = t % 24;
-    uint16_t days = t / 24;
+    int16_t days = t / 24;
     uint8_t leap;
     for (yOff = 0; ; ++yOff) {
         leap = yOff % 4 == 0;
