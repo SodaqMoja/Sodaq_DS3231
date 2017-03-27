@@ -195,7 +195,9 @@ void DateTime::addToString(String & str) const
     add02d(str, second());
 }
 
+// Binary-Coded-Decimal (BCD)-to-Decimal conversion
 static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4); }
+// Decimal-to-BCD (Binary-Coded-Decimal) conversion
 static uint8_t bin2bcd (uint8_t val) { return val + 6 * (val / 10); }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -295,50 +297,82 @@ DateTime Sodaq_DS3231::now() {
 //Use refreshINTA() to re-enable interrupt.
 void Sodaq_DS3231::enableInterrupts(uint8_t periodicity)
 {
-
+    // Turn in Alarm 1 at the control register
     unsigned char ctReg=0;
-    ctReg |= 0b00011101;
+    ctReg |= 0b00011101;  // Alarm 1 on
     writeRegister(DS3231_CONTROL_REG, ctReg);     //CONTROL Register Address
 
    switch(periodicity)
    {
        case EverySecond:
-       writeRegister(DS3231_AL1SEC_REG,  0b10000000 ); //set AM1
-       writeRegister(DS3231_AL1MIN_REG,  0b10000000 ); //set AM2
-       writeRegister(DS3231_AL1HOUR_REG, 0b10000000 ); //set AM3
-       writeRegister(DS3231_AL1WDAY_REG, 0b10000000 ); //set AM4
+       // Set all four alarm masks (on bit 7) - Alarm once per second
+       writeRegister(DS3231_AL1SEC_REG,  0b10000000 ); //Set A1M1
+       writeRegister(DS3231_AL1MIN_REG,  0b10000000 ); //Set A1M2
+       writeRegister(DS3231_AL1HOUR_REG, 0b10000000 ); //Set A1M3
+       writeRegister(DS3231_AL1WDAY_REG, 0b10000000 ); //Set A1M4
 
        break;
 
        case EveryMinute:
-       writeRegister(DS3231_AL1SEC_REG,  0b00000000 ); //Clr AM1
-       writeRegister(DS3231_AL1MIN_REG,  0b10000000 ); //set AM2
-       writeRegister(DS3231_AL1HOUR_REG, 0b10000000 ); //set AM3
-       writeRegister(DS3231_AL1WDAY_REG, 0b10000000 ); //set AM4
+       // Set 3 masks - Alarm when seconds match
+       // seconds = 0, thus alarms on the minute
+       writeRegister(DS3231_AL1SEC_REG,  0b00000000 ); //Clr A1M1
+       writeRegister(DS3231_AL1MIN_REG,  0b10000000 ); //Set A1M2
+       writeRegister(DS3231_AL1HOUR_REG, 0b10000000 ); //Set A1M3
+       writeRegister(DS3231_AL1WDAY_REG, 0b10000000 ); //Set A1M4
 
        break;
 
        case EveryHour:
-       writeRegister(DS3231_AL1SEC_REG,  0b00000000 ); //Clr AM1
-       writeRegister(DS3231_AL1MIN_REG,  0b00000000 ); //Clr AM2
-       writeRegister(DS3231_AL1HOUR_REG, 0b10000000 ); //Set AM3
-       writeRegister(DS3231_AL1WDAY_REG, 0b10000000 ); //set AM4
+       // Set 2 masks - Alarm when minutes and seconds match
+       // seconds = 0 and minutes = 0, thus alarms on the hour
+       writeRegister(DS3231_AL1SEC_REG,  0b00000000 ); //Clr A1M1
+       writeRegister(DS3231_AL1MIN_REG,  0b00000000 ); //Clr A1M2
+       writeRegister(DS3231_AL1HOUR_REG, 0b10000000 ); //Set A1M3
+       writeRegister(DS3231_AL1WDAY_REG, 0b10000000 ); //Set A1M4
 
        break;
    }
 }
 
-//Enable HH/MM/SS interrupt on /INTA pin. All interrupts works like single-shot counter
+// Enable HH/MM/SS interrupt on /INTA pin. All interrupts works like single-shot counter
+// This will only alarm ONE TIME PER DAY AT EXACT HH:MM:SS MATCH!!
 void Sodaq_DS3231::enableInterrupts(uint8_t hh24, uint8_t mm, uint8_t ss)
 {
+    // Turn in Alarm 1 at the control register
     unsigned char ctReg=0;
     ctReg |= 0b00011101;
-    writeRegister(DS3231_CONTROL_REG, ctReg);     //CONTROL Register Address
+    writeRegister(DS3231_CONTROL_REG, ctReg);
 
     writeRegister(DS3231_AL1SEC_REG,  0b00000000 | bin2bcd(ss) ); //Clr AM1
     writeRegister(DS3231_AL1MIN_REG,  0b00000000 | bin2bcd(mm)); //Clr AM2
     writeRegister(DS3231_AL1HOUR_REG, (0b00000000 | (bin2bcd(hh24) & 0b10111111))); //Clr AM3
-    writeRegister(DS3231_AL1WDAY_REG, 0b10000000 ); //set AM4
+    writeRegister(DS3231_AL1WDAY_REG, 0b10000000 ); //Set AM4 - Alarm when hours, minutes, and seconds match
+}
+
+
+// More flexible setting of interrupts
+void Sodaq_DS3231::enableInterrupts(ALARM_TYPES_t alarmType, uint8_t daydate, uint8_t hh24, uint8_t minutes, uint8_t seconds)
+{
+    unsigned char ctReg=0;
+    ctReg |= 0b00011101;  // Alarm 1 on
+    writeRegister(DS3231_CONTROL_REG, ctReg);     //CONTROL Register Address
+
+    seconds = bin2bcd(seconds);
+    minutes = bin2bcd(minutes);
+    hh24 = bin2bcd(hh24);
+    daydate = bin2bcd(daydate);
+    if (alarmType & 0x01) seconds |= 0b10000000;  // To alarm every second, set the alarm mask on seconds
+    if (alarmType & 0x02) minutes |= 0b10000000;  // To match seconds, need to set the alarm mask on minutes
+    if (alarmType & 0x04) hh24 |= 0b10000000;  // To match minutes *and* seconds, need to add the alarm mask on hours
+    if (alarmType & 0x10) hh24 |= 0b01000000;  // To match day *and* hours, minutes, seconds, need clear all alarm masks, but set the DY/DT bit
+    if (alarmType & 0x08) daydate |= 0b10000000;  // To match hours *and* minutes, seconds, need to add the alarm mask on days
+    // To match date *and* hours, minutes, seconds, need no alarm masks or DY/DT bits
+
+    writeRegister(DS3231_AL1SEC_REG, seconds);
+    writeRegister(DS3231_AL1MIN_REG, minutes);
+    writeRegister(DS3231_AL1HOUR_REG, hh24);
+    writeRegister(DS3231_AL1WDAY_REG, daydate);
 }
 
 //Disable Interrupts. This is equivalent to begin() method.
