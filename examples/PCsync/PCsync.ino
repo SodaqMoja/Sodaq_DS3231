@@ -120,7 +120,7 @@ void loop()
   DateTime now = rtc.now(); //get the current date-time
   uint32_t ts = now.getEpoch();
   Serial.print("Current RTC Date/Time: ");
-  Serial.print(weekDay[now.dayOfWeek()-1]);
+  Serial.print(weekDay[now.dayOfWeek()]);
   Serial.print(", ");
   Serial.print(charMonth[now.month()-1]);
   Serial.print(' ');
