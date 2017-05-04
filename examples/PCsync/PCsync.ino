@@ -37,7 +37,7 @@ String getDateTime()
 
 
 /*  code to process time sync messages from the serial port   */
-#define TIME_HEADER  "T"   // Header tag for serial time sync message
+#define TIME_HEADER  'T'   // Header tag for serial time sync message
 
 unsigned long processSyncMessage() {
   unsigned long pctime = 0L;
@@ -120,7 +120,7 @@ void loop()
   DateTime now = rtc.now(); //get the current date-time
   uint32_t ts = now.getEpoch();
   Serial.print("Current RTC Date/Time: ");
-  Serial.print(weekDay[now.dayOfWeek()]);
+  Serial.print(weekDay[now.dayOfWeek()-1]);
   Serial.print(", ");
   Serial.print(charMonth[now.month()-1]);
   Serial.print(' ');
