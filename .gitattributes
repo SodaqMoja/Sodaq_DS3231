@@ -15,3 +15,6 @@ platformio.ini export-ignore
 make-zip.sh export-ignore
 
 Doxyfile export-ignore
+
+# executable
+*.exe export-ignore
