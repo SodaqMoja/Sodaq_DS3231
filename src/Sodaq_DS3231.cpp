@@ -38,7 +38,7 @@
 
 #define DS3231_CONTROL_REG          0x0E
 #define DS3231_STATUS_REG           0x0F
-#define DS3231_AGING_OFFSET_REG     0x0F
+#define DS3231_AGING_OFFSET_REG     0x10
 #define DS3231_TMP_UP_REG           0x11
 #define DS3231_TMP_LOW_REG          0x12
 
