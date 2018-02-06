@@ -81,7 +81,7 @@ public:
     void disableInterrupts();
     void clearINTStatus();
 
-    void convertTemperature();
+    void convertTemperature(bool waitToFinish=true);
     float getTemperature();
 private:
     uint8_t readRegister(uint8_t regaddress);

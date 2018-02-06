@@ -393,19 +393,16 @@ void Sodaq_DS3231::clearINTStatus()
 }
 
 //force temperature sampling and converting to registers. If this function is not used the temperature is sampled once 64 Sec.
-void Sodaq_DS3231::convertTemperature()
+void Sodaq_DS3231::convertTemperature(bool waitToFinish)
 {
-    // Set CONV
+    // Set the CONV register - this forces a new conversion
     uint8_t ctReg = readRegister(DS3231_CONTROL_REG);
     ctReg |= 0b00100000;
     writeRegister(DS3231_CONTROL_REG,ctReg);
 
-
     //wait until CONV is cleared. Indicates new temperature value is available in register.
-    do
-    {
-       //do nothing
-    } while ((readRegister(DS3231_CONTROL_REG) & 0b00100000) == 0b00100000 );
+    if (!waitToFinish)
+        while ((readRegister(DS3231_CONTROL_REG) & 0b00100000) == 0b00100000 ) {}
 
 }
 
