@@ -47,6 +47,25 @@
 
 static const uint8_t daysInMonth [] PROGMEM = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 
+/**
+ * Calculate day of week in proleptic Gregorian calendar. Sunday == 1.
+ * https://rosettacode.org/wiki/Day_of_the_week#C
+ * @method wday
+ * @param  year  complete year
+ * @param  month month 1-12
+ * @param  day   day 1-31
+ * @return       week of day, Sunday = 1
+ */
+static int wday_from_date(uint16_t year, uint8_t month, uint8_t day) {
+  int adjustment, mm, yy;
+
+  adjustment = (14 - month) / 12;
+  mm = month + 12 * adjustment - 2;
+  yy = year - adjustment;
+  return ((day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7) +
+         1;
+}
+
 // number of days since 2000/01/01, valid for 2001..2099
 static uint16_t date2days(uint16_t y, uint8_t m, uint8_t d) {
     if (y >= 2000)
@@ -97,7 +116,8 @@ DateTime::DateTime (long t) {
         days -= daysPerMonth;
     }
     d = days + 1;
-    wday = 0;         // FIXME This is not properly initialized
+    //wday = 0;         // FIXME This is not properly initialized
+    wday = wday_from_date(yOff, m, d);
 }
 
 DateTime::DateTime (uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t min, uint8_t sec, uint8_t wd) {
