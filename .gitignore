@@ -57,5 +57,10 @@ Temporary Items
 lib/readme.txt
 platformio.ini
 /platformio.ini
+.pio
+.history
+.vscode
+*.code_workspace
 
 # Other
+DS3231.code-workspace

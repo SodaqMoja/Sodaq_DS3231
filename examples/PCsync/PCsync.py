@@ -49,7 +49,7 @@ def get_pc_time(notifications=False):
     try:
         c = ntplib.NTPClient()
         response = c.request('us.pool.ntp.org', version=3)
-        utc_unix_time = response.orig_time
+        utc_unix_time = response.orig_time - 5*3600
         if notifications:
             print "Using time from Network Time Protocol server us.pool.ntp.org"
     except:
@@ -132,11 +132,11 @@ except:
 
 # Send the time to the device
 print "First attempt to set the clock"
-run_time_check = datetime.datetime.now();
+run_time_check = datetime.datetime.now()
 device.write("T" + str(get_pc_time(notifications=True)))
 mf_resp1 = parse_device_set_response()
 print "Clock set to %s" % mf_resp1[1]
-set_time_check = (datetime.datetime.now() - run_time_check).total_seconds();
+set_time_check = (datetime.datetime.now() - run_time_check).total_seconds()
 print "Setting the clock took %s seconds" % set_time_check
 
 # Send the time to the device again to double-check the offsets
