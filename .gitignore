@@ -64,3 +64,4 @@ platformio.ini
 
 # Other
 DS3231.code-workspace
+examples/PCsync/PCsync.exe
