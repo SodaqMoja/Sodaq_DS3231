@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ****
 
-## v1.3.5 (2021-05-24) [Add pc sync python script for python 3.9](https://github.com/EnviroDIY/Sodaq_DS3231/releases/tag/v1.3.5)
+## v1.3.5 (2021-05-24) [Add PC sync python script for python 3.9](https://github.com/EnviroDIY/Sodaq_DS3231/releases/tag/v1.3.5)
 
 ### New Features
 - Adds a python 3.9 version of the PCsync program to sync the DS3231 with PC or NTP time.

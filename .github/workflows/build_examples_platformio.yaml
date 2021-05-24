@@ -29,15 +29,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade platformio
 
-      - name: Restore or Cache PlatformIO and Libraries
-        uses: actions/cache@v2.1.5
-        with:
-          path: ~/.platformio
-          # if nothing in the dependencies.json file has changed, then it will
-          # be a "cache hit" and we can restore libraries from cache and not
-          # download them.  If it has changed we have to re-download.
-          key: ${{ hashFiles('./dependencies.json') }}
-
       - name: Run PlatformIO
         env:
           PLATFORMIO_CI_SRC: ${{ matrix.example }}
