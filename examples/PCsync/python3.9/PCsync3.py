@@ -27,9 +27,12 @@ import serial.tools.list_ports
 
 # from tzlocal import get_localzone
 
-
 # get local timezone
 # local_tz = get_localzone()
+
+# Set offset from unversal coordinated time (aka Greenwich Mean Time, aka UTC)
+
+UTC_offset = -5
 
 
 def get_device_time():
@@ -46,8 +49,7 @@ def get_device_time():
 def get_pc_time(notifications=False):
     # A helper function to get the current time of either the PC or the US national time protocol servers
     # Checks for internet connection and if that is available returns the US NTP time, otherwise it
-    # returns the local
-    #  PC clock time.
+    # returns the local PC clock time.
     # Returns the current time (localized to the current PC) as a unix timestamp
 
     try:
@@ -84,15 +86,11 @@ def parse_device_set_response():
     diffts_abs = int(third_resp.split()[4])
     setline = device.readline().decode()
     # print setline
+    
     oldts = int(setline.split()[7])
     newts = int(setline.split()[4])
     return oldts, newts, diffts_abs
 
-# Set offset from unversal coordinated time (aka Greenwich Mean Time, aka UTC).
-# Barnard ecohydrology lab likes to log in local standard time, so mountain standard.
-# this is 7 hours behind UTC, so we will set it to -7
-
-UTC_offset = -7
 
 # Check all available serial ports
 ports = serial.tools.list_ports.comports()

@@ -23,9 +23,12 @@ import serial.tools.list_ports
 
 # from tzlocal import get_localzone
 
-
 # get local timezone
 # local_tz = get_localzone()
+
+# Set offset from unversal coordinated time (aka Greenwich Mean Time, aka UTC)
+
+UTC_offset = -5
 
 
 def get_device_time():
@@ -49,7 +52,7 @@ def get_pc_time(notifications=False):
     try:
         c = ntplib.NTPClient()
         response = c.request('us.pool.ntp.org', version=3)
-        utc_unix_time = response.orig_time - 5*3600
+        utc_unix_time = response.orig_time + (UTC_offset*3600)
         if notifications:
             print "Using time from Network Time Protocol server us.pool.ntp.org"
     except:
