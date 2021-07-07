@@ -1,0 +1,22 @@
+
+language: python
+python:
+    - "2.7"
+#
+sudo: false
+cache:
+    directories:
+        - "~/.platformio"
+#
+env:
+    - PLATFORMIO_CI_SRC=examples/now/now.ino
+    - PLATFORMIO_CI_SRC=examples/temperature/temperature.ino
+    - PLATFORMIO_CI_SRC=examples/adjust/adjust.ino
+    - PLATFORMIO_CI_SRC=examples/PCsync/PCsync.ino
+#
+install:
+    - pip install -U platformio
+    - platformio update
+#
+script:
+- platformio ci --lib="." --board=mayfly
