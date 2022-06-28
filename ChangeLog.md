@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ****
 
+## Unreleased
+
+### Changed
+- Specify python version for githut actions
+### Added
+
+### Removed
+
+### Fixed
+
+
 ## v1.3.5 (2021-05-24) [Add PC sync python script for python 3.9](https://github.com/EnviroDIY/Sodaq_DS3231/releases/tag/v1.3.5)
 
 ### New Features
