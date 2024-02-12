@@ -1,4 +1,4 @@
-// Date and time functions using a RX8025 RTC connected via I2C and Wire lib
+// Date and time functions using a DS3231 RTC connected via I2C and Wire lib
 
 #include <Wire.h>
 #include "Sodaq_DS3231.h"
@@ -11,15 +11,15 @@ char weekDay[][4] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 DateTime dt(2011, 11, 10, 15, 18, 0, 5);
 
 
-void setup () 
+void setup ()
 {
     Serial.begin(57600);
     Wire.begin();
     rtc.begin();
-    rtc.setDateTime(dt); //Adjust date-time as defined 'dt' above 
+    rtc.setDateTime(dt); //Adjust date-time as defined 'dt' above
 }
 
-void loop () 
+void loop ()
 {
     DateTime now = rtc.now(); //get the current date-time
     Serial.print(now.year(), DEC);

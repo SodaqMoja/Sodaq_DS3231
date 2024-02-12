@@ -1,0 +1,66 @@
+on:
+  push:
+    branches:
+      - master
+    # Sequence of patterns matched against refs/tags
+    paths:
+      - 'VERSION' # Push events when the VERSION file changes
+  workflow_dispatch:
+
+name: Prepare a new release and add release assets
+
+env:
+  PLATFORMIO_AUTH_TOKEN: ${{ secrets.PLATFORMIO_AUTH_TOKEN }}
+
+jobs:
+  release:
+    name: Prepare a new release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set environment variable for current library version
+        run: |
+          echo "::debug::Get the current version number"
+          VER=$(cat VERSION)
+          ZIP_FILE="ModularSensors_Dependencies_${VER}"
+          echo "VERSION=$VER" >> $GITHUB_ENV
+          echo "ZIP_NAME=$ZIP_FILE" >> $GITHUB_ENV
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install PlatformIO
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade platformio
+
+      - name: Get notes
+        id: generate_notes
+        uses: anmarkoulis/commitizen-changelog-reader@master
+        with:
+          # NOTE:  Need to add the refs/tags to work with the generate notes action
+          tag_name: ${{ format('refs/tags/{0}', env.VERSION) }}
+          changelog: ChangeLog.md
+
+      # Create a new release
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: ${{ env.VERSION }}
+          draft: false
+          prerelease: false
+          body: ${{join(fromJson(steps.generate_notes.outputs.notes).notes, '')}}
+
+      # Publish the new release to the pio package manager
+      - name: Publish release to PIO
+        id: publish-pio
+        run: pio package publish

@@ -5,7 +5,7 @@
 // version supporting day-of-week.
 
 // Original DateTime Class and its utility code is by Jean-Claude Wippler at JeeLabs
-// http://jeelabs.net/projects/cafe/wiki/RTClib 
+// http://jeelabs.net/projects/cafe/wiki/RTClib
 // Released under MIT License http://opensource.org/licenses/mit-license.php
 
 #ifndef SODAQ_DS3231_H
@@ -26,9 +26,9 @@ public:
     DateTime (const char* date, const char* time);
 
     uint8_t second() const      { return ss; }
-    uint8_t minute() const      { return mm; } 
+    uint8_t minute() const      { return mm; }
     uint8_t hour() const        { return hh; }
- 
+
     uint8_t date() const        { return d; }
     uint8_t month() const       { return m; }
     uint16_t year() const       { return 2000 + yOff; }		// Notice the 2000 !
@@ -51,6 +51,16 @@ protected:
 #define EveryMinute     0x02
 #define EveryHour       0x03
 
+//Alarm masks
+enum ALARM_TYPES_t {
+    EVERY_SECOND = 0x0F,
+    MATCH_SECONDS = 0x0E,
+    MATCH_MINUTES = 0x0C,     //match minutes *and* seconds
+    MATCH_HOURS = 0x08,       //match hours *and* minutes, seconds
+    MATCH_DATE = 0x00,        //match date *and* hours, minutes, seconds
+    MATCH_DAY = 0x10,         //match day *and* hours, minutes, seconds
+};
+
 // RTC DS3231 chip connected via I2C and uses the Wire library.
 // Only 24 Hour time format is supported in this implementation
 class Sodaq_DS3231 {
@@ -64,13 +74,14 @@ public:
     DateTime makeDateTime(unsigned long t);
 
     //Decides the /INT pin's output setting
-    //periodicity can be any of following defines: EverySecond, EveryMinute, EveryHour 
+    //periodicity can be any of following defines: EverySecond, EveryMinute, EveryHour
     void enableInterrupts(uint8_t periodicity);
     void enableInterrupts(uint8_t hh24, uint8_t mm,uint8_t ss);
+    void enableInterrupts(ALARM_TYPES_t alarmType, uint8_t daydate, uint8_t hh24, uint8_t mm, uint8_t ss);
     void disableInterrupts();
     void clearINTStatus();
 
-    void convertTemperature();
+    void convertTemperature(bool waitToFinish=true);
     float getTemperature();
 private:
     uint8_t readRegister(uint8_t regaddress);
