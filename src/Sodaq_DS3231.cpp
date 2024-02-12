@@ -410,20 +410,16 @@ void Sodaq_DS3231::convertTemperature(bool waitToFinish)
 float Sodaq_DS3231::getTemperature()
 {
     float fTemperatureCelsius;
-    uint8_t tUBYTE  = readRegister(DS3231_TMP_UP_REG);  //Two's complement form
-    uint8_t tLRBYTE = readRegister(DS3231_TMP_LOW_REG); //Fractional part
+    uint8_t tH = readRegister(DS3231_TMP_UP_REG);
+    uint8_t tL = readRegister(DS3231_TMP_LOW_REG);
 
-    if(tUBYTE & 0b10000000) //check if -ve number
-    {
-       tUBYTE  ^= 0b11111111;
-       tUBYTE  += 0x1;
-       fTemperatureCelsius = tUBYTE + ((tLRBYTE >> 6) * 0.25);
-       fTemperatureCelsius = fTemperatureCelsius * -1;
-    }
-    else
-    {
-        fTemperatureCelsius = tUBYTE + ((tLRBYTE >> 6) * 0.25);
-    }
+    // temperature is stored as a 2s complement signed 16 bit value with 8
+    // fractional bits. however, the hardware only fills the top two (the lower
+    // six are zero), so we get only quarter-degree resolution.
+
+    // convert bytes to signed 16 bit value
+    int16_t tempWord = (int16_t)((((uint16_t)tH) << 8) | ((uint16_t)tL));
+    fTemperatureCelsius = tempWord * (1.0f/256.0f); // scale to float value
 
     return (fTemperatureCelsius);
 
